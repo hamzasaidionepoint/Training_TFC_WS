@@ -10,9 +10,14 @@ provider "aws" {
   region     = "eu-west-1"
 }
 
-# Créer un bucket S3 
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = var.bucket_name #  Utilise la variable définie dans TFC
+# Appel du module S3 Bucket depuis Terraform Registry
+module "s3-bucket" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "4.2.1"
+
+  # Utilisation de la variable définie dans TFC
+  bucket = var.bucket_name
+
   tags = {
     Name        = "MySimpleBucket"
     Environment = "dev"
